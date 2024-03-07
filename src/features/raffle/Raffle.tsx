@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { RaffleObj, updateByAmount } from "./raffleSlice";
+import { RaffleObj, increasement, decreasement } from "./raffleSlice";
 import { useAppDispatch } from "src/app/hooks";
 
 interface RaffleProps {
@@ -10,11 +10,11 @@ const Raffle: FC<RaffleProps> = ({ raffle }) => {
   const dispatch = useAppDispatch();
 
   const onMinusClick = () => {
-    dispatch(updateByAmount({ amount: -1, id: raffle.id }));
+    dispatch(decreasement(raffle.id));
   };
 
   const onPlusClick = () => {
-    dispatch(updateByAmount({ amount: 1, id: raffle.id }));
+    dispatch(increasement(raffle.id));
   };
 
   return (
