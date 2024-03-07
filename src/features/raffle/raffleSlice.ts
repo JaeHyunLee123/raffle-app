@@ -11,6 +11,10 @@ interface RaffleState {
   list: RaffleObj[];
 }
 
+const updateLocalStorage = (state: RaffleState) => {
+  localStorage.setItem("raffles", JSON.stringify(state.list));
+};
+
 const localRafflesString = localStorage.getItem("raffles");
 
 const initialState: RaffleState = localRafflesString
@@ -34,7 +38,7 @@ export const raffleSlice = createSlice({
 
       state.list = [...state.list, newRaffle];
 
-      localStorage.setItem("raffles", JSON.stringify(state.list));
+      updateLocalStorage(state);
     },
 
     updateByAmount: (
@@ -47,13 +51,38 @@ export const raffleSlice = createSlice({
         }
       });
 
-      localStorage.setItem("raffles", JSON.stringify(state.list));
+      updateLocalStorage(state);
     },
 
     deleteRaffle: (state, action: PayloadAction<number>) => {
       state.list = state.list.filter((raffle) => raffle.id !== action.payload);
 
-      localStorage.setItem("raffles", JSON.stringify(state.list));
+      updateLocalStorage(state);
+    },
+
+    increasement: (state, action: PayloadAction<number>) => {
+      state.list.forEach((raffle) => {
+        if (raffle.id === action.payload) {
+          raffle.ticket += 1;
+        }
+      });
+
+      updateLocalStorage(state);
+    },
+
+    decreasement: (state, action: PayloadAction<number>) => {
+      state.list.forEach((raffle) => {
+        if (raffle.id === action.payload && raffle.ticket > 0) {
+          raffle.ticket -= 1;
+        }
+      });
+
+      updateLocalStorage(state);
+    },
+
+    deleteAll: (state) => {
+      state.list = [];
+      updateLocalStorage(state);
     },
   },
 });
