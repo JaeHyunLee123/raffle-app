@@ -47,7 +47,7 @@ export const raffleSlice = createSlice({
     ) => {
       state.list.forEach((raffle) => {
         if (raffle.id === action.payload.id) {
-          raffle.ticket = Math.max(raffle.ticket + action.payload.amount, 0);
+          raffle.ticket = Math.max(action.payload.amount, 0);
         }
       });
 
@@ -87,8 +87,14 @@ export const raffleSlice = createSlice({
   },
 });
 
-export const { createRaffle, updateByAmount, deleteRaffle } =
-  raffleSlice.actions;
+export const {
+  createRaffle,
+  updateByAmount,
+  deleteRaffle,
+  increasement,
+  decreasement,
+  deleteAll,
+} = raffleSlice.actions;
 
 export const selectRaffle = (state: RootState) => state.raffles.list;
 
