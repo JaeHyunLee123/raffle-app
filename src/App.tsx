@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { createRaffle, selectRaffle } from "./features/raffle/raffleSlice";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
@@ -13,7 +13,15 @@ function App() {
   const dispatch = useAppDispatch();
   const raffleList = useAppSelector(selectRaffle);
 
-  console.log(raffleList);
+  const [totalTicket, setTotalTicket] = useState(0);
+
+  useEffect(() => {
+    let temp = 0;
+    raffleList.forEach((raffle) => {
+      temp += raffle.ticket;
+    });
+    setTotalTicket(temp);
+  }, [raffleList]);
 
   const onSubmit = ({ name }: RaffleForm) => {
     dispatch(createRaffle(name));
@@ -29,6 +37,9 @@ function App() {
         />
         <button>+</button>
       </form>
+      <div>
+        <span>Total tickets: {totalTicket}</span>
+      </div>
       <ul>
         {raffleList.map((raffle) => (
           <Raffle raffle={raffle} />
