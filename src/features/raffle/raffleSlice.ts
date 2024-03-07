@@ -98,4 +98,13 @@ export const {
 
 export const selectRaffle = (state: RootState) => state.raffles.list;
 
+export const selectTotalTickets = (state: RootState) => {
+  let totalTickets = 0;
+  state.raffles.list.forEach((raffle) => {
+    totalTickets += raffle.ticket;
+  });
+
+  return totalTickets;
+};
+
 export default raffleSlice.reducer;
