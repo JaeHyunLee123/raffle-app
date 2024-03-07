@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { createRaffle } from "./features/raffle/raffleSlice";
-import { useAppDispatch } from "./app/hooks";
+import { createRaffle, selectRaffle } from "./features/raffle/raffleSlice";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 
 interface RaffleForm {
   name: string;
@@ -10,6 +10,7 @@ interface RaffleForm {
 function App() {
   const { register, handleSubmit, reset } = useForm<RaffleForm>();
   const dispatch = useAppDispatch();
+  const raffleList = useAppSelector(selectRaffle);
 
   const onSubmit = ({ name }: RaffleForm) => {
     dispatch(createRaffle(name));
@@ -25,6 +26,14 @@ function App() {
         />
         <button>+</button>
       </form>
+      <ul>
+        {raffleList.map((raffle) => (
+          <li>
+            <span>{raffle.name}</span>
+            <span>{raffle.ticket}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
