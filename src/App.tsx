@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { createRaffle, selectRaffle } from "./features/raffle/raffleSlice";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
+import Raffle from "./features/raffle/Raffle";
 
 interface RaffleForm {
   name: string;
@@ -28,10 +29,7 @@ function App() {
       </form>
       <ul>
         {raffleList.map((raffle) => (
-          <li>
-            <span>{raffle.name}</span>
-            <span>{raffle.ticket}</span>
-          </li>
+          <Raffle raffle={raffle} />
         ))}
       </ul>
     </div>

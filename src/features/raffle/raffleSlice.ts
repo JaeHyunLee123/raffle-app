@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "src/app/store";
 
-interface RaffleObj {
+export interface RaffleObj {
   ticket: number;
   name: string;
   id: number;
