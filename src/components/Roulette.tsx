@@ -16,6 +16,8 @@ const Roulette: FC<RouletteProps> = ({}) => {
   const [winner, setWinner] = useState("");
 
   const onRouletteClick = () => {
+    if (totalTickets === 0) return;
+
     const percentages: number[] = new Array(raffleList.length).fill(0);
 
     let cumulativeSum = 0;

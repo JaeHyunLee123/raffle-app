@@ -19,7 +19,11 @@ const Raffle: FC<RaffleProps> = ({ raffle }) => {
   const [winPercentage, setWinPercentage] = useState("");
 
   useEffect(() => {
-    setWinPercentage(((raffle.ticket / totalTickets) * 100).toFixed(2));
+    if (raffle.ticket === 0) {
+      setWinPercentage("0");
+    } else {
+      setWinPercentage(((raffle.ticket / totalTickets) * 100).toFixed(2));
+    }
   }, [raffle, totalTickets]);
 
   const onMinusClick = () => {
