@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   createRaffle,
   selectRaffle,
   deleteAll,
+  selectTotalTickets,
 } from "./features/raffle/raffleSlice";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import Raffle from "./features/raffle/Raffle";
+import Roulette from "./components/Roulette";
 
 interface RaffleForm {
   name: string;
@@ -17,15 +18,7 @@ function App() {
   const dispatch = useAppDispatch();
   const raffleList = useAppSelector(selectRaffle);
 
-  const [totalTicket, setTotalTicket] = useState(0);
-
-  useEffect(() => {
-    let temp = 0;
-    raffleList.forEach((raffle) => {
-      temp += raffle.ticket;
-    });
-    setTotalTicket(temp);
-  }, [raffleList]);
+  const totalTickets = useAppSelector(selectTotalTickets);
 
   const onSubmit = ({ name }: RaffleForm) => {
     dispatch(createRaffle(name));
@@ -46,9 +39,10 @@ function App() {
         <button>추가</button>
       </form>
       <div>
-        <span>Total tickets: {totalTicket}</span>
+        <span>Total tickets: {totalTickets}</span>
       </div>
       <button onClick={onDeleteAll}>모두 삭제</button>
+      <Roulette />
       <ul>
         {raffleList.map((raffle) => (
           <Raffle raffle={raffle} />

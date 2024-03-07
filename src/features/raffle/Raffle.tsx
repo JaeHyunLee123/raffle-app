@@ -1,11 +1,12 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   RaffleObj,
   increasement,
   decreasement,
   deleteRaffle,
+  selectTotalTickets,
 } from "./raffleSlice";
-import { useAppDispatch } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
 
 interface RaffleProps {
   raffle: RaffleObj;
@@ -13,6 +14,13 @@ interface RaffleProps {
 
 const Raffle: FC<RaffleProps> = ({ raffle }) => {
   const dispatch = useAppDispatch();
+  const totalTickets = useAppSelector(selectTotalTickets);
+
+  const [winPercentage, setWinPercentage] = useState("");
+
+  useEffect(() => {
+    setWinPercentage(((raffle.ticket / totalTickets) * 100).toFixed(2));
+  }, [raffle, totalTickets]);
 
   const onMinusClick = () => {
     dispatch(decreasement(raffle.id));
@@ -33,6 +41,7 @@ const Raffle: FC<RaffleProps> = ({ raffle }) => {
       <span>tickets: {raffle.ticket}</span>
       <button onClick={onPlusClick}>+</button>
       <button onClick={onDeleteClick}>삭제</button>
+      <span>당첨 확률: {winPercentage}%</span>
     </div>
   );
 };
