@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
-import { RenderHookOptions } from "@testing-library/react";
+import type { RootState } from "src/app/store";
 
 interface RaffleObj {
   ticket: number;
