@@ -43,7 +43,7 @@ function App() {
           placeholder="이름을 입력하세요"
           {...register("name", { required: true })}
         />
-        <button>+</button>
+        <button>추가</button>
       </form>
       <div>
         <span>Total tickets: {totalTicket}</span>

@@ -1,5 +1,10 @@
 import { FC } from "react";
-import { RaffleObj, increasement, decreasement } from "./raffleSlice";
+import {
+  RaffleObj,
+  increasement,
+  decreasement,
+  deleteRaffle,
+} from "./raffleSlice";
 import { useAppDispatch } from "src/app/hooks";
 
 interface RaffleProps {
@@ -17,12 +22,17 @@ const Raffle: FC<RaffleProps> = ({ raffle }) => {
     dispatch(increasement(raffle.id));
   };
 
+  const onDeleteClick = () => {
+    dispatch(deleteRaffle(raffle.id));
+  };
+
   return (
     <div>
       <span>name: {raffle.name}</span>
       <button onClick={onMinusClick}>-</button>
       <span>tickets: {raffle.ticket}</span>
       <button onClick={onPlusClick}>+</button>
+      <button onClick={onDeleteClick}>삭제</button>
     </div>
   );
 };
