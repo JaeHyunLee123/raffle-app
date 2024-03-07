@@ -23,7 +23,7 @@ export const raffleSlice = createSlice({
       const newRaffle: RaffleObj = {
         name: action.payload,
         id: Date.now(),
-        ticket: 0,
+        ticket: 1,
       };
 
       state.list = [...state.list, newRaffle];
@@ -34,8 +34,9 @@ export const raffleSlice = createSlice({
       action: PayloadAction<{ amount: number; id: number }>
     ) => {
       state.list.forEach((raffle) => {
-        if (raffle.id === action.payload.id)
-          raffle.ticket += action.payload.amount;
+        if (raffle.id === action.payload.id) {
+          raffle.ticket = Math.max(raffle.ticket + action.payload.amount, 0);
+        }
       });
     },
 
