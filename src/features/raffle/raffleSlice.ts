@@ -11,9 +11,13 @@ interface RaffleState {
   list: RaffleObj[];
 }
 
-const initialState: RaffleState = {
-  list: [],
-};
+const localRafflesString = localStorage.getItem("raffles");
+
+const initialState: RaffleState = localRafflesString
+  ? JSON.parse(localRafflesString)
+  : {
+      list: [],
+    };
 
 export const raffleSlice = createSlice({
   name: "raffles",
@@ -27,6 +31,8 @@ export const raffleSlice = createSlice({
       };
 
       state.list = [...state.list, newRaffle];
+
+      localStorage.setItem("raffles", JSON.stringify(state.list));
     },
 
     updateByAmount: (
@@ -38,10 +44,14 @@ export const raffleSlice = createSlice({
           raffle.ticket = Math.max(raffle.ticket + action.payload.amount, 0);
         }
       });
+
+      localStorage.setItem("raffles", JSON.stringify(state.list));
     },
 
     deleteRaffle: (state, action: PayloadAction<number>) => {
       state.list = state.list.filter((raffle) => raffle.id !== action.payload);
+
+      localStorage.setItem("raffles", JSON.stringify(state.list));
     },
   },
 });

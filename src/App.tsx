@@ -13,6 +13,8 @@ function App() {
   const dispatch = useAppDispatch();
   const raffleList = useAppSelector(selectRaffle);
 
+  console.log(raffleList);
+
   const onSubmit = ({ name }: RaffleForm) => {
     dispatch(createRaffle(name));
     reset();
@@ -35,5 +37,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
