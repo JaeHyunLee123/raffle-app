@@ -45,7 +45,7 @@ function App() {
       <Roulette />
       <ul>
         {raffleList.map((raffle) => (
-          <Raffle raffle={raffle} />
+          <Raffle raffle={raffle} key={raffle.id} />
         ))}
       </ul>
     </div>

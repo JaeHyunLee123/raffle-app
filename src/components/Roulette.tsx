@@ -8,7 +8,7 @@ import { FC, useState } from "react";
 
 interface RouletteProps {}
 
-const Roulette: FC<RouletteProps> = ({}) => {
+const Roulette: FC<RouletteProps> = () => {
   const raffleList = useAppSelector(selectRaffle);
   const totalTickets = useAppSelector(selectTotalTickets);
   const dispatch = useAppDispatch();
