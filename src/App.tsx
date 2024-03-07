@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { createRaffle, selectRaffle } from "./features/raffle/raffleSlice";
+import {
+  createRaffle,
+  selectRaffle,
+  deleteAll,
+} from "./features/raffle/raffleSlice";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import Raffle from "./features/raffle/Raffle";
 
@@ -28,6 +32,10 @@ function App() {
     reset();
   };
 
+  const onDeleteAll = () => {
+    dispatch(deleteAll());
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -40,6 +48,7 @@ function App() {
       <div>
         <span>Total tickets: {totalTicket}</span>
       </div>
+      <button onClick={onDeleteAll}>모두 삭제</button>
       <ul>
         {raffleList.map((raffle) => (
           <Raffle raffle={raffle} />
