@@ -14,7 +14,9 @@ interface RaffleState {
 const localRafflesString = localStorage.getItem("raffles");
 
 const initialState: RaffleState = localRafflesString
-  ? JSON.parse(localRafflesString)
+  ? {
+      list: JSON.parse(localRafflesString),
+    }
   : {
       list: [],
     };
