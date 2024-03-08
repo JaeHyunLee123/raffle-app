@@ -7,6 +7,56 @@ import {
   selectTotalTickets,
 } from "./raffleSlice";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+
+const Wrapper = styled(motion.div)`
+  padding: 4px;
+  border-bottom: solid 1px #00c2c7;
+  margin: 3px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 500px;
+
+  span {
+    margin-right: 2px;
+    margin-left: 2px;
+  }
+
+  button {
+    margin-right: 2px;
+    margin-left: 2px;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    border: none;
+    background-color: #daf8e3;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 150px;
+
+  button {
+    width: 20%;
+  }
+  span {
+    width: 60%;
+    display: block;
+    text-align: center;
+  }
+`;
+
+const Name = styled.span`
+  font-weight: 700;
+  font-size: 26px;
+`;
 
 interface RaffleProps {
   raffle: RaffleObj;
@@ -39,14 +89,16 @@ const Raffle: FC<RaffleProps> = ({ raffle }) => {
   };
 
   return (
-    <div>
-      <span>name: {raffle.name}</span>
-      <button onClick={onMinusClick}>-</button>
-      <span>tickets: {raffle.ticket}</span>
-      <button onClick={onPlusClick}>+</button>
+    <Wrapper>
+      <Name>{raffle.name}</Name>
+      <ButtonWrapper>
+        <button onClick={onMinusClick}>-</button>
+        <span>tickets: {raffle.ticket}</span>
+        <button onClick={onPlusClick}>+</button>
+      </ButtonWrapper>
       <button onClick={onDeleteClick}>삭제</button>
       <span>당첨 확률: {winPercentage}%</span>
-    </div>
+    </Wrapper>
   );
 };
 
