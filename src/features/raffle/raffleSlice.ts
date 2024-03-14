@@ -131,6 +131,7 @@ export const {
   increasement,
   decreasement,
   deleteAll,
+  sort,
 } = raffleSlice.actions;
 
 export const selectRaffle = (state: RootState) => state.raffles.list;

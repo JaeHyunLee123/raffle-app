@@ -4,6 +4,7 @@ import {
   selectRaffle,
   deleteAll,
   selectTotalTickets,
+  sort,
 } from "./features/raffle/raffleSlice";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import Raffle from "./features/raffle/Raffle";
@@ -93,6 +94,36 @@ function App() {
         <DeleteAllBtn onClick={onDeleteAll}>모두 삭제</DeleteAllBtn>
       </div>
       <Roulette />
+      <div>
+        <button
+          onClick={() => {
+            dispatch(sort({ sortBy: "name", isAsc: true }));
+          }}
+        >
+          이름 오름차순
+        </button>
+        <button
+          onClick={() => {
+            dispatch(sort({ sortBy: "name", isAsc: false }));
+          }}
+        >
+          이름 내림차순
+        </button>
+        <button
+          onClick={() => {
+            dispatch(sort({ sortBy: "ticket", isAsc: true }));
+          }}
+        >
+          티켓 오름차순
+        </button>
+        <button
+          onClick={() => {
+            dispatch(sort({ sortBy: "ticket", isAsc: false }));
+          }}
+        >
+          티켓 내림차순
+        </button>
+      </div>
       <ul>
         {raffleList.map((raffle) => (
           <Raffle raffle={raffle} key={raffle.id} />
