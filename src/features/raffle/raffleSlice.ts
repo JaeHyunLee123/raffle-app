@@ -95,7 +95,7 @@ export const raffleSlice = createSlice({
 
       if (sortBy === "name") {
         if (isAsc) {
-          state.list = state.list.toSorted((a, b) => {
+          state.list = state.list.sort((a, b) => {
             if (a.name > b.name) {
               return 1;
             } else {
@@ -103,7 +103,7 @@ export const raffleSlice = createSlice({
             }
           });
         } else {
-          state.list = state.list.toSorted((a, b) => {
+          state.list = state.list.sort((a, b) => {
             if (a.name > b.name) {
               return -1;
             } else {
@@ -113,9 +113,9 @@ export const raffleSlice = createSlice({
         }
       } else {
         if (isAsc) {
-          state.list = state.list.toSorted((a, b) => a.ticket - b.ticket);
+          state.list = state.list.sort((a, b) => a.ticket - b.ticket);
         } else {
-          state.list = state.list.toSorted((a, b) => b.ticket - a.ticket);
+          state.list = state.list.sort((a, b) => b.ticket - a.ticket);
         }
       }
 
