@@ -5,6 +5,28 @@ import {
   selectTotalTickets,
 } from "src/features/raffle/raffleSlice";
 import { FC, useState } from "react";
+import styled from "styled-components";
+
+const RouletteBtn = styled.button`
+  margin: 1rem;
+
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  border: none;
+  background-color: #bae1ff;
+`;
+
+const WinnerSpan = styled.span`
+  font-weight: 700;
+  font-size: 1.5rem;
+`;
 
 interface RouletteProps {}
 
@@ -40,8 +62,8 @@ const Roulette: FC<RouletteProps> = () => {
 
   return (
     <div>
-      <button onClick={onRouletteClick}>룰렛 실행</button>
-      {winner ? <span>당첨자: {winner}</span> : ""}
+      <RouletteBtn onClick={onRouletteClick}>룰렛 실행</RouletteBtn>
+      {winner ? <WinnerSpan>당첨자: {winner}</WinnerSpan> : ""}
     </div>
   );
 };

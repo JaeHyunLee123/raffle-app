@@ -38,6 +38,27 @@ const Form = styled.form`
   }
 `;
 
+const DeleteAllBtn = styled.button`
+  margin: 1rem;
+
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+
+  font-size: 1rem;
+
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #ff8b94;
+`;
+
+const TotalTicketSpan = styled.span`
+  margin: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+`;
+
 interface RaffleForm {
   name: string;
 }
@@ -68,9 +89,9 @@ function App() {
         <button>추가</button>
       </Form>
       <div>
-        <span>Total tickets: {totalTickets}</span>
+        <TotalTicketSpan>Total tickets: {totalTickets}</TotalTicketSpan>
+        <DeleteAllBtn onClick={onDeleteAll}>모두 삭제</DeleteAllBtn>
       </div>
-      <button onClick={onDeleteAll}>모두 삭제</button>
       <Roulette />
       <ul>
         {raffleList.map((raffle) => (
