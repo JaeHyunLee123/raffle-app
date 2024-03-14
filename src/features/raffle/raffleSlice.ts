@@ -11,6 +11,11 @@ interface RaffleState {
   list: RaffleObj[];
 }
 
+interface SortReducerPayload {
+  sortBy: "name" | "ticket";
+  isAsc: boolean;
+}
+
 const updateLocalStorage = (state: RaffleState) => {
   localStorage.setItem("raffles", JSON.stringify(state.list));
 };
@@ -82,6 +87,38 @@ export const raffleSlice = createSlice({
 
     deleteAll: (state) => {
       state.list = [];
+      updateLocalStorage(state);
+    },
+
+    sort: (state, action: PayloadAction<SortReducerPayload>) => {
+      const { sortBy, isAsc } = action.payload;
+
+      if (sortBy === "name") {
+        if (isAsc) {
+          state.list = state.list.toSorted((a, b) => {
+            if (a.name > b.name) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
+        } else {
+          state.list = state.list.toSorted((a, b) => {
+            if (a.name > b.name) {
+              return -1;
+            } else {
+              return 1;
+            }
+          });
+        }
+      } else {
+        if (isAsc) {
+          state.list = state.list.toSorted((a, b) => a.ticket - b.ticket);
+        } else {
+          state.list = state.list.toSorted((a, b) => b.ticket - a.ticket);
+        }
+      }
+
       updateLocalStorage(state);
     },
   },
