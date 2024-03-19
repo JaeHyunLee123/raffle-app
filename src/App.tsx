@@ -43,6 +43,10 @@ const Form = styled.form`
   }
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+`;
+
 const ButtonWrapper = styled.div`
   display: flex;
   padding: 0.5rem;
@@ -94,55 +98,59 @@ function App() {
   };
 
   return (
-    <div>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          placeholder="이름을 입력하세요"
-          {...register("name", { required: true })}
-        />
-        <button>추가</button>
-      </Form>
+    <Wrapper>
       <div>
-        <TotalTicketSpan>Total tickets: {totalTickets}</TotalTicketSpan>
-        <DeleteAllBtn onClick={onDeleteAll}>모두 삭제</DeleteAllBtn>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <input
+            placeholder="이름을 입력하세요"
+            {...register("name", { required: true })}
+          />
+          <button>추가</button>
+        </Form>
+        <div>
+          <TotalTicketSpan>Total tickets: {totalTickets}</TotalTicketSpan>
+          <DeleteAllBtn onClick={onDeleteAll}>모두 삭제</DeleteAllBtn>
+        </div>
+
+        <ButtonWrapper>
+          <button
+            onClick={() => {
+              dispatch(sort({ sortBy: "name", isAsc: true }));
+            }}
+          >
+            이름 오름차순
+          </button>
+          <button
+            onClick={() => {
+              dispatch(sort({ sortBy: "name", isAsc: false }));
+            }}
+          >
+            이름 내림차순
+          </button>
+          <button
+            onClick={() => {
+              dispatch(sort({ sortBy: "ticket", isAsc: true }));
+            }}
+          >
+            티켓 오름차순
+          </button>
+          <button
+            onClick={() => {
+              dispatch(sort({ sortBy: "ticket", isAsc: false }));
+            }}
+          >
+            티켓 내림차순
+          </button>
+        </ButtonWrapper>
+        <ul>
+          {raffleList.map((raffle) => (
+            <Raffle raffle={raffle} key={raffle.id} />
+          ))}
+        </ul>
       </div>
+
       <Roulette />
-      <ButtonWrapper>
-        <button
-          onClick={() => {
-            dispatch(sort({ sortBy: "name", isAsc: true }));
-          }}
-        >
-          이름 오름차순
-        </button>
-        <button
-          onClick={() => {
-            dispatch(sort({ sortBy: "name", isAsc: false }));
-          }}
-        >
-          이름 내림차순
-        </button>
-        <button
-          onClick={() => {
-            dispatch(sort({ sortBy: "ticket", isAsc: true }));
-          }}
-        >
-          티켓 오름차순
-        </button>
-        <button
-          onClick={() => {
-            dispatch(sort({ sortBy: "ticket", isAsc: false }));
-          }}
-        >
-          티켓 내림차순
-        </button>
-      </ButtonWrapper>
-      <ul>
-        {raffleList.map((raffle) => (
-          <Raffle raffle={raffle} key={raffle.id} />
-        ))}
-      </ul>
-    </div>
+    </Wrapper>
   );
 }
 export default App;

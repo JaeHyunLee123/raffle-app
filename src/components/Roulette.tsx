@@ -4,8 +4,9 @@ import {
   selectRaffle,
   selectTotalTickets,
 } from "src/features/raffle/raffleSlice";
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const RouletteBtn = styled.button`
   margin: 1rem;
@@ -26,6 +27,21 @@ const RouletteBtn = styled.button`
 const WinnerSpan = styled.span`
   font-weight: 700;
   font-size: 1.5rem;
+`;
+
+const Circle = styled(motion.div)`
+  width: 30px;
+  height: 30px;
+  border: 3px solid black;
+  border-radius: 100%;
+  background-color: blue;
+`;
+
+const RouletteBound = styled(motion.div)`
+  width: 500px;
+  height: 500px;
+  border: 3px solid black;
+  border-radius: 100px;
 `;
 
 interface RouletteProps {}
@@ -60,10 +76,17 @@ const Roulette: FC<RouletteProps> = () => {
     }
   };
 
+  const constraintsRef = useRef(null);
+
   return (
     <div>
       <RouletteBtn onClick={onRouletteClick}>룰렛 실행</RouletteBtn>
       {winner ? <WinnerSpan>당첨자: {winner}</WinnerSpan> : ""}
+      <RouletteBound ref={constraintsRef}>
+        {[...Array(10)].map((_, i) => (
+          <Circle key={i} />
+        ))}
+      </RouletteBound>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   RaffleObj,
   increasement,
@@ -88,6 +88,8 @@ const Raffle: FC<RaffleProps> = ({ raffle }) => {
     dispatch(deleteRaffle(raffle.id));
   };
 
+  const constraintsRef = useRef(null);
+
   return (
     <Wrapper>
       <Name>{raffle.name}</Name>
@@ -98,6 +100,10 @@ const Raffle: FC<RaffleProps> = ({ raffle }) => {
       </ButtonWrapper>
       <button onClick={onDeleteClick}>삭제</button>
       <span>당첨 확률: {winPercentage}%</span>
+
+      <motion.div ref={constraintsRef}>
+        <motion.div drag dragConstraints={constraintsRef}></motion.div>
+      </motion.div>
     </Wrapper>
   );
 };
