@@ -43,6 +43,15 @@ const Form = styled.form`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  padding: 0.5rem;
+
+  button {
+    margin-right: 1rem;
+  }
+`;
+
 const DeleteAllBtn = styled.button`
   margin: 1rem;
 
@@ -98,7 +107,7 @@ function App() {
         <DeleteAllBtn onClick={onDeleteAll}>모두 삭제</DeleteAllBtn>
       </div>
       <Roulette />
-      <div>
+      <ButtonWrapper>
         <button
           onClick={() => {
             dispatch(sort({ sortBy: "name", isAsc: true }));
@@ -127,7 +136,7 @@ function App() {
         >
           티켓 내림차순
         </button>
-      </div>
+      </ButtonWrapper>
       <ul>
         {raffleList.map((raffle) => (
           <Raffle raffle={raffle} key={raffle.id} />
