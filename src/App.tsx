@@ -20,6 +20,10 @@ const Form = styled.form`
     border-bottom: 1px solid black;
     font-size: 1.5rem;
     margin-right: 0.5rem;
+
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 5px;
   }
 
   button {
