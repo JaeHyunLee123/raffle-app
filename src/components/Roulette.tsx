@@ -35,9 +35,20 @@ const Circle = styled(motion.div)`
   width: 500px;
   height: 500px;
   border: 3px solid black;
-  border-radius: 100%;
-  background-color: whitesmoke;
+  border-radius: 50%;
+  background-color: transparent;
   text-align: center;
+  position: relative;
+`;
+
+const RouletteContent = styled.div<{ $rotationDegree: number }>`
+  font-size: 1.2rem;
+  font-weight: 700;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  transform: rotate(${(props) => props.$rotationDegree}deg);
 `;
 
 interface RouletteProps {}
@@ -107,7 +118,14 @@ const Roulette: FC<RouletteProps> = () => {
           ease: "linear",
         }}
       >
-        hello
+        {raffleList.map((raffle, i) => (
+          <RouletteContent
+            key={raffle.id}
+            $rotationDegree={(i / raffleList.length) * 360}
+          >
+            {raffle.name}
+          </RouletteContent>
+        ))}
       </Circle>
     </div>
   );
