@@ -131,14 +131,18 @@ const Roulette: FC<RouletteProps> = () => {
           ease: "linear",
         }}
       >
-        {raffleList.map((raffle, i) => (
-          <RouletteContent
-            key={raffle.id}
-            $rotationDegree={(cumulativeSums[i] / totalTickets) * 360}
-          >
-            {raffle.name}
-          </RouletteContent>
-        ))}
+        {raffleList.map((raffle, i) =>
+          raffle.ticket > 0 ? (
+            <RouletteContent
+              key={raffle.id}
+              $rotationDegree={(cumulativeSums[i] / totalTickets) * 360}
+            >
+              {raffle.name}
+            </RouletteContent>
+          ) : (
+            ""
+          )
+        )}
       </Circle>
     </div>
   );
