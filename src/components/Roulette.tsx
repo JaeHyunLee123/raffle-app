@@ -4,11 +4,25 @@ import {
   selectRaffle,
   selectTotalTickets,
 } from "src/features/raffle/raffleSlice";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
 const ROTATE_ANIMATION_DURATION_TIME = 100; //ms
+const ROULETTE_COLORS = [
+  "#d11141",
+  "#00b159",
+  "#00aedb",
+  "#f37735",
+  "#ffc425",
+  "#a200ff",
+  "#ff0097",
+  "#00aba9",
+  "#a05000",
+  "#e671b8",
+  "#f09609",
+];
+const ROULETTE_SIZE = 500; //px
 
 const RouletteBtn = styled.button`
   margin: 1rem;
@@ -32,8 +46,8 @@ const WinnerSpan = styled.span`
 `;
 
 const Circle = styled(motion.div)`
-  width: 500px;
-  height: 500px;
+  width: ${ROULETTE_SIZE}px;
+  height: ${ROULETTE_SIZE}px;
   border: 3px solid black;
   border-radius: 50%;
   background-color: transparent;
@@ -41,12 +55,17 @@ const Circle = styled(motion.div)`
   position: relative;
 `;
 
-const RouletteContent = styled.div<{ $rotationDegree: number }>`
+const RouletteContent = styled.div<{
+  $rotationDegree: number;
+}>`
   font-size: 1.2rem;
   font-weight: 700;
   height: 100%;
   width: 100%;
   position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
   z-index: -1;
   transform: rotate(${(props) => props.$rotationDegree}deg);
 `;
@@ -113,6 +132,29 @@ const Roulette: FC<RouletteProps> = () => {
     }
   };
 
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+
+    if (canvas === null) return;
+
+    const ctx = canvas.getContext("2d");
+
+    if (ctx === null) return;
+
+    ctx.strokeStyle = "black";
+
+    raffleList.forEach((raffle, i) => {
+      ctx.fillStyle = ROULETTE_COLORS[i % ROULETTE_COLORS.length];
+
+      ctx.moveTo(ROULETTE_SIZE / 2, ROULETTE_SIZE / 2);
+
+      const standard = (cumulativeSums[i] / totalTickets) * 360;
+      const size = raffle.ticket / totalTickets;
+    });
+  }, [raffleList, cumulativeSums]);
+
   return (
     <div>
       <RouletteBtn onClick={onRouletteClick}>룰렛 실행</RouletteBtn>
@@ -131,6 +173,13 @@ const Roulette: FC<RouletteProps> = () => {
           ease: "linear",
         }}
       >
+        <canvas
+          ref={canvasRef}
+          style={{
+            width: `${ROULETTE_SIZE}px`,
+            height: `${ROULETTE_SIZE}px`,
+          }}
+        />
         {raffleList.map((raffle, i) =>
           raffle.ticket > 0 ? (
             <RouletteContent
