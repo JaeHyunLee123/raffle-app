@@ -4,9 +4,11 @@ import {
   selectRaffle,
   selectTotalTickets,
 } from "src/features/raffle/raffleSlice";
-import { FC, useState } from "react";
-import styled, { keyframes } from "styled-components";
+import { FC, useEffect, useState } from "react";
+import styled from "styled-components";
 import { motion } from "framer-motion";
+
+const ROTATE_ANIMATION_DURATION_TIME = 100; //ms
 
 const RouletteBtn = styled.button`
   margin: 1rem;
@@ -29,24 +31,12 @@ const WinnerSpan = styled.span`
   font-size: 1.5rem;
 `;
 
-const rotate = keyframes`
-    from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const Circle = styled(motion.div)<{ $isRotate?: boolean }>`
+const Circle = styled(motion.div)`
   width: 500px;
   height: 500px;
   border: 3px solid black;
   border-radius: 100%;
   background-color: whitesmoke;
-  animation: ${rotate} 4s linear
-    ${(props) => (props.$isRotate ? "inifinte" : "")};
   text-align: center;
 `;
 
@@ -58,6 +48,21 @@ const Roulette: FC<RouletteProps> = () => {
   const dispatch = useAppDispatch();
 
   const [isRotating, setIsRotating] = useState(false);
+  const [rotationDegree, setRotationDegree] = useState(0);
+
+  useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
+    if (isRotating) {
+      intervalId = setInterval(() => {
+        setRotationDegree((prevDegree) => prevDegree + 10);
+      }, ROTATE_ANIMATION_DURATION_TIME);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [isRotating]);
 
   const [winner, setWinner] = useState("");
 
@@ -95,7 +100,15 @@ const Roulette: FC<RouletteProps> = () => {
       >
         돌려라 돌림판
       </button>
-      <Circle $isRotate={isRotating}>hello</Circle>
+      <Circle
+        animate={{ rotate: rotationDegree }}
+        transition={{
+          duration: ROTATE_ANIMATION_DURATION_TIME / 1000,
+          ease: "linear",
+        }}
+      >
+        hello
+      </Circle>
     </div>
   );
 };
