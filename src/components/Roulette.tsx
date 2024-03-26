@@ -98,11 +98,8 @@ const Roulette: FC<RouletteProps> = () => {
 
     const percentages: number[] = new Array(raffleList.length).fill(0);
 
-    let cumulativeSum = 0;
-    raffleList.forEach((raffle, i) => {
-      const percentage = raffle.ticket / totalTickets;
-      percentages[i] = cumulativeSum + percentage;
-      cumulativeSum += percentage;
+    raffleList.forEach((_, i) => {
+      percentages[i] = cumulativeSums[i] / totalTickets;
     });
 
     const random = Math.random();
