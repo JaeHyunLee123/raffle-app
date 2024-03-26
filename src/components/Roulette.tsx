@@ -61,6 +61,22 @@ const Roulette: FC<RouletteProps> = () => {
   const [isRotating, setIsRotating] = useState(false);
   const [rotationDegree, setRotationDegree] = useState(0);
 
+  const [cumulativeSums, setCumulativeSums] = useState<number[]>([]);
+
+  useEffect(() => {
+    const temp: number[] = Array(raffleList.length).fill(0);
+
+    raffleList.forEach((raffle, i) => {
+      if (i === 0) {
+        temp[i] = raffle.ticket;
+      } else {
+        temp[i] = temp[i - 1] + raffle.ticket;
+      }
+    });
+
+    setCumulativeSums(temp);
+  }, [raffleList]);
+
   useEffect(() => {
     let intervalId: ReturnType<typeof setInterval> | null = null;
 
@@ -121,7 +137,7 @@ const Roulette: FC<RouletteProps> = () => {
         {raffleList.map((raffle, i) => (
           <RouletteContent
             key={raffle.id}
-            $rotationDegree={(i / raffleList.length) * 360}
+            $rotationDegree={(cumulativeSums[i] / totalTickets) * 360}
           >
             {raffle.name}
           </RouletteContent>
