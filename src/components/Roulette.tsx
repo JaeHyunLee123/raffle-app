@@ -53,6 +53,7 @@ const Circle = styled(motion.div)`
   background-color: transparent;
   text-align: center;
   position: relative;
+  z-index: -1;
 `;
 
 const RouletteContent = styled.div<{
@@ -66,7 +67,7 @@ const RouletteContent = styled.div<{
   top: 0;
   left: 0;
   background-color: transparent;
-  z-index: -1;
+  z-index: 2;
   transform: rotate(${(props) => props.$rotationDegree}deg);
 `;
 
@@ -84,15 +85,11 @@ const Roulette: FC<RouletteProps> = () => {
 
   useEffect(() => {
     const temp: number[] = Array(raffleList.length).fill(0);
-
+    let cumulativeSum = 0;
     raffleList.forEach((raffle, i) => {
-      if (i === 0) {
-        temp[i] = raffle.ticket;
-      } else {
-        temp[i] = temp[i - 1] + raffle.ticket;
-      }
+      temp[i] = cumulativeSum + raffle.ticket;
+      cumulativeSum = temp[i];
     });
-
     setCumulativeSums(temp);
   }, [raffleList]);
 
@@ -134,6 +131,7 @@ const Roulette: FC<RouletteProps> = () => {
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  //draw roullet
   useEffect(() => {
     const canvas = canvasRef.current;
 
@@ -143,17 +141,34 @@ const Roulette: FC<RouletteProps> = () => {
 
     if (ctx === null) return;
 
-    ctx.strokeStyle = "black";
+    if (totalTickets === 0) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    const radius = ROULETTE_SIZE / 2;
 
     raffleList.forEach((raffle, i) => {
       ctx.fillStyle = ROULETTE_COLORS[i % ROULETTE_COLORS.length];
 
-      ctx.moveTo(ROULETTE_SIZE / 2, ROULETTE_SIZE / 2);
+      const standard =
+        ((cumulativeSums[i] - raffle.ticket / 2) / totalTickets) * 360 - 90;
+      const size = (raffle.ticket / totalTickets) * 360;
 
-      const standard = (cumulativeSums[i] / totalTickets) * 360;
-      const size = raffle.ticket / totalTickets;
+      console.log(`${raffle.name} - standard: ${standard}, size: ${size}`);
+
+      ctx.beginPath();
+      ctx.moveTo(radius, radius);
+      ctx.arc(
+        radius, //x
+        radius, //y
+        radius, //radius
+        (Math.PI / 180) * (standard - size / 2), //start angle
+        (Math.PI / 180) * (standard + size / 2) //end angle
+      );
+      ctx.closePath();
+      ctx.fill();
     });
-  }, [raffleList, cumulativeSums]);
+  }, [cumulativeSums, raffleList, totalTickets]);
 
   return (
     <div>
@@ -166,6 +181,7 @@ const Roulette: FC<RouletteProps> = () => {
       >
         돌려라 돌림판
       </button>
+
       <Circle
         animate={{ rotate: rotationDegree }}
         transition={{
@@ -175,16 +191,19 @@ const Roulette: FC<RouletteProps> = () => {
       >
         <canvas
           ref={canvasRef}
+          width={`${ROULETTE_SIZE}px`}
+          height={`${ROULETTE_SIZE}px`}
           style={{
-            width: `${ROULETTE_SIZE}px`,
-            height: `${ROULETTE_SIZE}px`,
+            zIndex: 1,
           }}
         />
         {raffleList.map((raffle, i) =>
           raffle.ticket > 0 ? (
             <RouletteContent
               key={raffle.id}
-              $rotationDegree={(cumulativeSums[i] / totalTickets) * 360}
+              $rotationDegree={
+                ((cumulativeSums[i] - raffle.ticket / 2) / totalTickets) * 360
+              }
             >
               {raffle.name}
             </RouletteContent>
