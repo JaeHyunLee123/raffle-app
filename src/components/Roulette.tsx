@@ -89,6 +89,9 @@ const Roulette: FC<RouletteProps> = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [winnerName, setWinnerName] = useState("");
+  const [winnerId, setWinnerId] = useState(-1);
+
   useEffect(() => {
     const temp: number[] = Array(raffleList.length).fill(0);
     let cumulativeSum = 0;
@@ -98,8 +101,6 @@ const Roulette: FC<RouletteProps> = () => {
     });
     setCumulativeSums(temp);
   }, [raffleList]);
-
-  const [winner, setWinner] = useState("");
 
   const onRouletteClick = async () => {
     if (totalTickets === 0) return;
@@ -126,8 +127,8 @@ const Roulette: FC<RouletteProps> = () => {
 
     for (let i = 0; i < percentages.length; i++) {
       if (random < percentages[i]) {
-        setWinner(raffleList[i].name);
-        dispatch(decreasement(raffleList[i].id));
+        setWinnerName(raffleList[i].name);
+        setWinnerId(raffleList[i].id);
         break;
       }
     }
@@ -177,7 +178,7 @@ const Roulette: FC<RouletteProps> = () => {
   return (
     <div>
       <RouletteBtn onClick={onRouletteClick}>룰렛 실행</RouletteBtn>
-      {winner ? <WinnerSpan>당첨자: {winner}</WinnerSpan> : ""}
+      {winnerName ? <WinnerSpan>당첨자: {winnerName}</WinnerSpan> : ""}
 
       <Circle
         animate={{ rotate: rotationDegree }}
@@ -212,10 +213,11 @@ const Roulette: FC<RouletteProps> = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => {
+          dispatch(decreasement(winnerId));
           setIsModalOpen(false);
         }}
       >
-        <span>{winner} 당첨!</span>
+        <span>{winnerName} 당첨!</span>
       </Modal>
     </div>
   );
