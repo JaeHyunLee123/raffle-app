@@ -7,6 +7,7 @@ import {
 import { FC, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import Modal from "./Modal";
 
 const ROTATE_ANIMATION_DURATION_TIME = 20; //ms
 const ROULETTE_COLORS = [
@@ -86,6 +87,8 @@ const Roulette: FC<RouletteProps> = () => {
 
   const [cumulativeSums, setCumulativeSums] = useState<number[]>([]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     const temp: number[] = Array(raffleList.length).fill(0);
     let cumulativeSum = 0;
@@ -132,10 +135,12 @@ const Roulette: FC<RouletteProps> = () => {
     for (let i = 0; i < percentages.length; i++) {
       if (random < percentages[i]) {
         setWinner(raffleList[i].name);
-        //dispatch(decreasement(raffleList[i].id));
+        dispatch(decreasement(raffleList[i].id));
         break;
       }
     }
+
+    setIsModalOpen(true);
   };
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -212,6 +217,14 @@ const Roulette: FC<RouletteProps> = () => {
           )
         )}
       </Circle>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
+      >
+        <span>{winner} 당첨!</span>
+      </Modal>
     </div>
   );
 };
