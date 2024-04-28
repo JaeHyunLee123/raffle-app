@@ -179,6 +179,23 @@ const Roulette: FC<RouletteProps> = () => {
     <div>
       <RouletteBtn onClick={onRouletteClick}>룰렛 실행</RouletteBtn>
       {winnerName ? <WinnerSpan>당첨자: {winnerName}</WinnerSpan> : ""}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <svg //arrow
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2.5}
+          stroke="currentColor"
+          className="w-6 h-6"
+          style={{ height: 50, width: 50, display: "block", color: "red" }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"
+          />
+        </svg>
+      </div>
 
       <Circle
         animate={{ rotate: rotationDegree }}
