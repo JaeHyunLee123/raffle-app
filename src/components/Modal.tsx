@@ -31,7 +31,11 @@ const Modal: FC<WinnerModalProps> = ({ isOpen, onClose, children }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <ModalWrapper>
+        <ModalWrapper
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
           <ModalContent>{children}</ModalContent>
           <button onClick={onClose}>확인</button>
         </ModalWrapper>

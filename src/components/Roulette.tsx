@@ -124,14 +124,6 @@ const Roulette: FC<RouletteProps> = () => {
 
     setRotationDegree(winnerAngle);
 
-    // console.log(`winnerAngle: ${winnerAngle}`);
-    // console.log(`rotation: ${rotationDegree}`);
-
-    // while (winnerAngle < rotationDegree + 360) {
-    //   setRotationDegree((prevDegree) => prevDegree + 10);
-    //   await sleep(100);
-    // }
-
     for (let i = 0; i < percentages.length; i++) {
       if (random < percentages[i]) {
         setWinner(raffleList[i].name);
