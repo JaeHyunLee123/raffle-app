@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/raffle-app/static/css/main.580d9bea.css",
+    "main.js": "/raffle-app/static/js/main.6510c13f.js",
+    "index.html": "/raffle-app/index.html",
+    "main.580d9bea.css.map": "/raffle-app/static/css/main.580d9bea.css.map",
+    "main.6510c13f.js.map": "/raffle-app/static/js/main.6510c13f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.580d9bea.css",
+    "static/js/main.6510c13f.js"
+  ]
+}
