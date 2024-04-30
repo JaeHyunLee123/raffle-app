@@ -19,6 +19,39 @@ const ModalContent = styled(motion.div)`
   background-color: white;
   padding: 20px;
   border-radius: 8px;
+  border: 2px solid black;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+  height: 200px;
+
+  button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    background-color: #daf8e3;
+
+    border-radius: 8px;
+    border: none;
+
+    width: 100px;
+    height: 30px;
+    margin-top: 20px;
+  }
+
+  button:hover {
+    width: 120px;
+    height: 40px;
+    font-weight: 700;
+  }
 `;
 
 interface WinnerModalProps {
@@ -36,8 +69,10 @@ const Modal: FC<WinnerModalProps> = ({ isOpen, onClose, children }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <ModalContent>{children}</ModalContent>
-          <button onClick={onClose}>확인</button>
+          <ModalContent>
+            {children}
+            <button onClick={onClose}>확인</button>
+          </ModalContent>
         </ModalWrapper>
       )}
     </AnimatePresence>
