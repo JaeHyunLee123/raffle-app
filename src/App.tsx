@@ -53,6 +53,13 @@ const ButtonWrapper = styled.div`
 
   button {
     margin-right: 1rem;
+
+    background-color: #00c2c7;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 5px 8px 5px 8px;
   }
 `;
 
